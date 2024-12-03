@@ -29,12 +29,12 @@ def calculate_contact_angle(image_path):
 
     If you wish to change the parameters of the image processing, you can create a txt file named "parameters.txt" with the following values:
     CLIP_LIMIT = 3.0 # Contrast Limited Adaptive Histogram Equalization (CLAHE) clip limit
-    THRESHHOLD1 = 50 # Canny edge detection lower threshold
-    THRESHHOLD2 = 150 # Canny edge detection upper threshold
+    THRESHOLD1 = 50 # Canny edge detection lower threshold
+    THRESHOLD2 = 150 # Canny edge detection upper threshold
     POINTS_TO_TAKE = 30  # Number of points to consider for surface line detection
-    HEIGHT_THRESHHOLD_START = 40 # Minimum height difference to consider a point
-    HEIGHT_THRESHHOLD_FINISH = 5 # Maximum height difference to consider a point
-    JUMP_THRESHHOLD = 2 # Maximum jump in X to consider a point
+    HEIGHT_THRESHOLD_START = 40 # Minimum height difference to consider a point
+    HEIGHT_THRESHOLD_FINISH = 5 # Maximum height difference to consider a point
+    JUMP_THRESHOLD = 2 # Maximum jump in X to consider a point
     MIN_POINTS_TO_FIND = 4 # Minimum points to consider a line
 
     place the file in the same directory as this file.
@@ -72,18 +72,18 @@ def calculate_contact_angle(image_path):
     # You can adjust these parameters to optimize the droplet detection for different images
     # Change by adding txt named "parameters.txt" with the following values (without the #):
     if os.path.exists("parameters.txt"): # Check if the file exists
-        CLIP_LIMIT, THRESHHOLD1, THRESHHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHHOLD_START,\
-              HEIGHT_THRESHHOLD_FINISH, JUMP_THRESHHOLD, MIN_POINTS_TO_FIND = load_parameters()
+        CLIP_LIMIT, THRESHOLD1, THRESHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHOLD_START,\
+              HEIGHT_THRESHOLD_FINISH, JUMP_THRESHOLD, MIN_POINTS_TO_FIND = load_parameters()
 
     else: 
         # Define the default parameters for image processing
         CLIP_LIMIT = 3.0 # Contrast Limited Adaptive Histogram Equalization (CLAHE) clip limit
-        THRESHHOLD1 = 50 # Canny edge detection lower threshold
-        THRESHHOLD2 = 150 # Canny edge detection upper threshold
+        THRESHOLD1 = 50 # Canny edge detection lower threshold
+        THRESHOLD2 = 150 # Canny edge detection upper threshold
         POINTS_TO_TAKE = 30  # Number of points to consider for surface line detection
-        HEIGHT_THRESHHOLD_START = 40 # Minimum height difference to consider a point
-        HEIGHT_THRESHHOLD_FINISH = 5 # Maximum height difference to consider a point
-        JUMP_THRESHHOLD = 2 # Maximum jump in X to consider a point
+        HEIGHT_THRESHOLD_START = 40 # Minimum height difference to consider a point
+        HEIGHT_THRESHOLD_FINISH = 5 # Maximum height difference to consider a point
+        JUMP_THRESHOLD = 2 # Maximum jump in X to consider a point
         MIN_POINTS_TO_FIND = 4 # Minimum points to consider a line
         
     
@@ -97,7 +97,7 @@ def calculate_contact_angle(image_path):
     # Step 3: Gaussian Blur
     blurred = cv2.GaussianBlur(enhanced_gray, (5, 5), 0)
     # Step 4: Edge Detection
-    edges = cv2.Canny(blurred, THRESHHOLD1, THRESHHOLD2)
+    edges = cv2.Canny(blurred, THRESHOLD1, THRESHOLD2)
     # Step 5: Bridge Gaps in Edges
     kernel = cv2.getStructuringElement(cv2.MORPH_ELLIPSE, (5, 5))
     bridged_edges = cv2.morphologyEx(edges, cv2.MORPH_CLOSE, kernel, iterations=2)
@@ -161,11 +161,11 @@ def calculate_contact_angle(image_path):
         # Step 10: Define the Surface Line
         sorted_points = droplet_contour[:, 0, :]
         sorted_points = sorted_points[sorted_points[:, 0].argsort()]
-        most_righ_points = np.array([pt for pt in sorted_points[-POINTS_TO_TAKE:]])
+        most_right_points = np.array([pt for pt in sorted_points[-POINTS_TO_TAKE:]])
         most_left_points = np.array([pt for pt in sorted_points[:POINTS_TO_TAKE]])
-        most_righ_point = (int(np.mean(most_righ_points[:, 0])), int(np.mean(most_righ_points[:, 1])))
+        most_right_point = (int(np.mean(most_right_points[:, 0])), int(np.mean(most_right_points[:, 1])))
         most_left_point = (int(np.mean(most_left_points[:, 0])), int(np.mean(most_left_points[:, 1])))
-        surface_points = np.array([most_left_point, surface_start, most_righ_point])
+        surface_points = np.array([most_left_point, surface_start, most_right_point])
         if len(surface_points) < 2:
             print("Insufficient points for surface detection.")
             return
@@ -174,7 +174,7 @@ def calculate_contact_angle(image_path):
         [vx_d, vy_d, x0_d, y0_d] = cv2.fitLine(surface_points, cv2.DIST_L2, 0, 0.01, 0.01)
     
         # Getting the points of the line so we can compare to them later
-        angle_x_range = np.arange(x_high, most_righ_point[0], 1)  # Generate x values from 0 to image width
+        angle_x_range = np.arange(x_high, most_right_point[0], 1)  # Generate x values from 0 to image width
         angle_y_range = ((vy_d / vx_d) * (angle_x_range - x0_d) + y0_d).astype(int)  # Solve for y = m(x - x0) + y0
         line_points = np.column_stack((angle_x_range, angle_y_range))
 
@@ -202,10 +202,10 @@ def calculate_contact_angle(image_path):
                 continue
             if not index:
                 continue
-            if int(line_points[index][1] - srt_y) < HEIGHT_THRESHHOLD_FINISH:
+            if int(line_points[index][1] - srt_y) < HEIGHT_THRESHOLD_FINISH:
                 continue
 
-            if int(line_points[index][1] - srt_y) > HEIGHT_THRESHHOLD_START:
+            if int(line_points[index][1] - srt_y) > HEIGHT_THRESHOLD_START:
                 continue
             tmp_angle_points.append((srt_x, srt_y))
 
@@ -220,11 +220,11 @@ def calculate_contact_angle(image_path):
             else:
                 continue
         
-        # Now filter if theres and big jumps beetwen points on X line
+        # Now filter if theres and big jumps between points on X line
         tmp_filtered_angle_points = []
         prev_point = tmp_angle_points[0][0]
         for a_x, a_y in tmp_angle_points:
-            if a_x - prev_point > JUMP_THRESHHOLD and len(tmp_filtered_angle_points) > MIN_POINTS_TO_FIND:
+            if a_x - prev_point > JUMP_THRESHOLD and len(tmp_filtered_angle_points) > MIN_POINTS_TO_FIND:
                 break
             else:
                 tmp_filtered_angle_points.append(np.array([a_x, a_y]))
@@ -278,22 +278,22 @@ def load_parameters():
     for line in lines:
         if "CLIP_LIMIT" in line:
             CLIP_LIMIT = float(line.split("=")[1].strip())
-        if "THRESHHOLD1" in line:
-            THRESHHOLD1 = int(line.split("=")[1].strip())
-        if "THRESHHOLD2" in line:
-            THRESHHOLD2 = int(line.split("=")[1].strip())
+        if "THRESHOLD1" in line:
+            THRESHOLD1 = int(line.split("=")[1].strip())
+        if "THRESHOLD2" in line:
+            THRESHOLD2 = int(line.split("=")[1].strip())
         if "POINTS_TO_TAKE" in line:
             POINTS_TO_TAKE = int(line.split("=")[1].strip())
-        if "HEIGHT_THRESHHOLD_START" in line:
-            HEIGHT_THRESHHOLD_START = int(line.split("=")[1].strip())
-        if "HEIGHT_THRESHHOLD_FINISH" in line:
-            HEIGHT_THRESHHOLD_FINISH = int(line.split("=")[1].strip())
-        if "JUMP_THRESHHOLD" in line:
-            JUMP_THRESHHOLD = int(line.split("=")[1].strip())
+        if "HEIGHT_THRESHOLD_START" in line:
+            HEIGHT_THRESHOLD_START = int(line.split("=")[1].strip())
+        if "HEIGHT_THRESHOLD_FINISH" in line:
+            HEIGHT_THRESHOLD_FINISH = int(line.split("=")[1].strip())
+        if "JUMP_THRESHOLD" in line:
+            JUMP_THRESHOLD = int(line.split("=")[1].strip())
         if "MIN_POINTS_TO_FIND" in line:
             MIN_POINTS_TO_FIND = int(line.split("=")[1].strip())
     open_file.close()
-    return CLIP_LIMIT, THRESHHOLD1, THRESHHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHHOLD_START, HEIGHT_THRESHHOLD_FINISH, JUMP_THRESHHOLD, MIN_POINTS_TO_FIND
+    return CLIP_LIMIT, THRESHOLD1, THRESHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHOLD_START, HEIGHT_THRESHOLD_FINISH, JUMP_THRESHOLD, MIN_POINTS_TO_FIND
 
 
 if __name__ == "__main__":

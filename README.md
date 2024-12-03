@@ -63,12 +63,12 @@ Here is an example image of a droplet on a Teflon surface:
 You can adjust the parameters for image processing by creating a `parameters.txt` file with the following values:
 ```plaintext
 CLIP_LIMIT = 3.0 # Contrast Limited Adaptive Histogram Equalization (CLAHE) clip limit
-THRESHHOLD1 = 50 # Canny edge detection lower threshold
-THRESHHOLD2 = 150 # Canny edge detection upper threshold
+THRESHOLD1 = 50 # Canny edge detection lower threshold
+THRESHOLD2 = 150 # Canny edge detection upper threshold
 POINTS_TO_TAKE = 30  # Number of points to consider for surface line detection
-HEIGHT_THRESHHOLD_START = 40 # Minimum height difference to consider a point
-HEIGHT_THRESHHOLD_FINISH = 5 # Maximum height difference to consider a point
-JUMP_THRESHHOLD = 2 # Maximum jump in X to consider a point
+HEIGHT_THRESHOLD_START = 40 # Minimum height difference to consider a point
+HEIGHT_THRESHOLD_FINISH = 5 # Maximum height difference to consider a point
+JUMP_THRESHOLD = 2 # Maximum jump in X to consider a point
 MIN_POINTS_TO_FIND = 4 # Minimum points to consider a line
 ```
 
