@@ -34,7 +34,9 @@ This project calculates the contact angle of droplets in images. The script proc
     ```sh
     python dropplet_run.py
     ```
-3. The results will be stored in `results.log`.
+3. The intermediate results will be displayed. Make sure that drop and surface are detected correctly.
+4. Prass q continue to the next image.
+5. The results will be stored in `results.log`.
 
 ## Image Requirements
 
