@@ -11,7 +11,7 @@ The results are stored in the LOG_FILE file.
 """
 
 # Define the working folder and the accepted image formats
-WORKING_FOLDER = '.'
+WORKING_FOLDER = '.' 
 ACCEPTED_IMAGE_FORMATS = ['jpeg', 'jpg']
 
 # Create a log file to store the results
