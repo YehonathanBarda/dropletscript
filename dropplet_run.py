@@ -11,20 +11,28 @@ The results are stored in the LOG_FILE file.
 """
 
 # Define the working folder and the accepted image formats
-WORKING_FOLDER = '.' 
+WORKING_FOLDER = '.'
 ACCEPTED_IMAGE_FORMATS = ['jpeg', 'jpg']
 
 # Create a log file to store the results
-LOG_FILE = 'results.log'
+LOG_FILE = os.path.join(WORKING_FOLDER,'results.log')
 
 # Open the log file in write mode
 log_file = open(LOG_FILE, 'w')
+Found_Image = False # Flag to check if any images were found
 
 for file_name in os.listdir(WORKING_FOLDER):
     if file_name.split('.')[-1] in ACCEPTED_IMAGE_FORMATS:
-        contact_angle = calculate_contact_angle(file_name)
+        Found_Image = True
+        contact_angle = calculate_contact_angle(os.path.join(WORKING_FOLDER,file_name))
         log_file.write(f"File: {file_name}, Contact Angle: {contact_angle} degrees\n")
         print('\n')
+
+if not Found_Image:
+    log_file.write("No images found in the working folder\n")
+    print("No images found in the working folder")
+else:
+    print("Results stored in the {} file".format(LOG_FILE))
 
 # Close the log file
 log_file.close()

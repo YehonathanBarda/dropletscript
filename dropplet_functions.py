@@ -304,6 +304,6 @@ if __name__ == "__main__":
     
     for file_name in os.listdir(WORKING_FOLDER):
         if file_name.split('.')[-1] in ACCEPTED_IMAGE_FORMATS:
-            calculate_contact_angle(file_name)
+            calculate_contact_angle(file_name.split('.')[-1])
             print("\n")
 
