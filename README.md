@@ -52,15 +52,16 @@ This project calculates the contact angle of droplets in images. The script proc
 ## Parameters
 
 You can adjust the parameters for image processing by creating a `parameters.txt` file with the following values:
-
-CLIP_LIMIT=3.0 
-THRESHHOLD1=50 
-THRESHHOLD2=150 
-POINTS_TO_TAKE=30 
-HEIGHT_THRESHHOLD_START=40 
-HEIGHT_THRESHHOLD_FINISH=5 
-JUMP_THRESHHOLD=2 
+```plaintext
+CLIP_LIMIT=3.0
+THRESHHOLD1=50
+THRESHHOLD2=150
+POINTS_TO_TAKE=30
+HEIGHT_THRESHHOLD_START=40
+HEIGHT_THRESHHOLD_FINISH=5
+JUMP_THRESHHOLD=2
 MIN_POINTS_TO_FIND=4
+```
 
 Place the `parameters.txt` file in the same directory as the script.
 
