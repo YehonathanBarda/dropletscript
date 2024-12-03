@@ -295,8 +295,7 @@ def load_parameters():
     open_file.close()
     return CLIP_LIMIT, THRESHHOLD1, THRESHHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHHOLD_START, HEIGHT_THRESHHOLD_FINISH, JUMP_THRESHHOLD, MIN_POINTS_TO_FIND
 
-# calculate_contact_angle("teflon2.jpg")
-# calculate_contact_angle("teflon_cropped.jpeg")
+
 if __name__ == "__main__":
     
     WORKING_FOLDER = '.'
