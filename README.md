@@ -47,7 +47,13 @@ This project calculates the contact angle of droplets in images. The script proc
 - The image should be in focus and well-lit to ensure accurate detection.
 - Avoid any reflections on the droplet or the surface.
 - You may need to crop the image to focus on the droplet and surface only.
-- Example images are provided in the repository.
+- Example images are provided in the repository (Example_Images folder).
+
+## Example Image
+
+Here is an example image of a droplet on a Teflon surface:
+
+![Teflon Surface Droplet](Example_Images/teflon1.jpg)
 
 ## Parameters
 
