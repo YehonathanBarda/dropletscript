@@ -30,15 +30,14 @@ This project calculates the contact angle of droplets in images. The script proc
 ## Usage
 
 1. Place your images in the working folder (default is the current directory).
-2. Run the script. in any way you like.
-    for example using the CMD (to open clilck window key, write cmd, click enter):
+2. Run the script. in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
     ```sh
     cd <repository-directory>
     python dropplet_run.py
     ```
-3. The intermediate results will be displayed. Make sure that drop and surface are detected correctly.
-4. Prass q continue to the next image.
-5. The results will be stored in `results.log`.
+4. The intermediate results will be displayed. Make sure that drop and surface are detected correctly.
+5. Prass q continue to the next image.
+6. The results will be stored in `results.log`.
 
 ## Image Requirements
 
