@@ -47,7 +47,7 @@ class DropletApp:
         tk.Label(self.root, text="Log File Name:").grid(row=2, column=0, padx=10, pady=10)
         tk.Entry(self.root, textvariable=self.log_file_name).grid(row=2, column=1, padx=10, pady=10)
 
-        tk.Label(self.root, text="Log Directory:").grid(row=3, column=0, padx=10, pady=10)
+        tk.Label(self.root, text="Log File Directory:").grid(row=3, column=0, padx=10, pady=10)
         tk.Button(self.root, text="Browse", command=self.choose_directory).grid(row=3, column=1, padx=10, pady=10)
         self.directory_label = tk.Label(self.root, text=self.log_directory.get())
         self.directory_label.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
@@ -76,8 +76,11 @@ class DropletApp:
         if not self.image_files:
             messagebox.showwarning("No Images", "Please select images to process")
             return
-
+        
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
+        if not log_file_path.endswith('.log'):
+            log_file_path += '.log'
+            
         with open(log_file_path, 'w', encoding='utf-8') as log_file:
             for file_name in self.image_files:
                 try:
