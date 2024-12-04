@@ -135,7 +135,7 @@ def calculate_contact_angle(image_path):
 
             points_in_same_x = []
 
-            # Lets find all the points close to our x, whithin search_range
+            # Lets find all the points close to our x, within search_range
             for x, y in droplet_contour[:, 0, :].tolist():
                 if (x_high - search_range) < x < (x_high + search_range) and (y > y_high + min_distance):
                     points_in_same_x.append((x, y))
