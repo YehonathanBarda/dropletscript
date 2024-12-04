@@ -3,6 +3,8 @@ from dropplet_functions import calculate_contact_angle
 
 """
 @authors: Lyrie Edler and Yehonathan Barda
+@date: 04/12/2024
+@Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.
 
 This script calculates the contact angle of all the images in the working folder and stores the results in a log file.
 The working folder is defined by the WORKING_FOLDER variable and the accepted image formats are defined by the ACCEPTED_IMAGE_FORMATS variable.

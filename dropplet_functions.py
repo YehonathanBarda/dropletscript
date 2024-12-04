@@ -5,8 +5,8 @@ import matplotlib.pyplot as plt
 
 """
 @authors: Lyrie Edler and Yehonathan Barda
-@date: 2021-09-27
-
+@date: 04/12/2024
+@Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.
 """
 
 def calculate_contact_angle(image_path):

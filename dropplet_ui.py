@@ -2,8 +2,15 @@ import os
 import tkinter as tk
 from tkinter import filedialog, messagebox
 from dropplet_functions import calculate_contact_angle
-from PIL import Image
+from PIL import Image, ImageTk
 import subprocess
+
+"""
+Droplet Contact Angle Calculation GUI
+@authors: Lyrie Edler and Yehonathan Barda
+@date: 04/12/2024
+@Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.
+"""
 
 class DropletApp:
     """
@@ -28,7 +35,7 @@ class DropletApp:
         self.root.title("Droplet Contact Angle Calculation")
 
         # Set the window icon
-        icon_path = os.path.join(os.path.dirname(__file__), 'icon' ,'dropplet_icon.ico')
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.ico')
         self.root.iconbitmap(icon_path)
 
         self.image_files = []
@@ -38,23 +45,35 @@ class DropletApp:
         self.create_widgets()
 
     def create_widgets(self):
+        # Load and resize the logo image
+        logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.png')
+        logo_image = Image.open(logo_path)
+        logo_image = logo_image.resize((90, 90), Image.ANTIALIAS)  # Resize the image to 100x100 pixels
+        logo_photo = ImageTk.PhotoImage(logo_image)
+
         # Create and place widgets in the application window
-        tk.Label(self.root, text="Select Images:").grid(row=0, column=0, padx=10, pady=10)
-        tk.Button(self.root, text="Browse", command=self.load_images).grid(row=0, column=1, padx=10, pady=10)
+        tk.Label(self.root, image=logo_photo).grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        self.root.logo_photo = logo_photo  # Keep a reference to avoid garbage collection
+
+        tk.Label(self.root, text="Select Images:").grid(row=1, column=0, padx=10, pady=10)
+        tk.Button(self.root, text="Browse", command=self.load_images).grid(row=1, column=1, padx=10, pady=10)
         self.image_label = tk.Label(self.root, text="")
-        self.image_label.grid(row=1, column=0, columnspan=2, padx=10, pady=10)
+        self.image_label.grid(row=2, column=0, columnspan=2, padx=10, pady=10)
 
-        tk.Label(self.root, text="Log File Name:").grid(row=2, column=0, padx=10, pady=10)
-        tk.Entry(self.root, textvariable=self.log_file_name).grid(row=2, column=1, padx=10, pady=10)
+        tk.Label(self.root, text="Log File Name:").grid(row=3, column=0, padx=10, pady=10)
+        tk.Entry(self.root, textvariable=self.log_file_name).grid(row=3, column=1, padx=10, pady=10)
 
-        tk.Label(self.root, text="Log File Directory:").grid(row=3, column=0, padx=10, pady=10)
-        tk.Button(self.root, text="Browse", command=self.choose_directory).grid(row=3, column=1, padx=10, pady=10)
+        tk.Label(self.root, text="Log File Directory:").grid(row=4, column=0, padx=10, pady=10)
+        tk.Button(self.root, text="Browse", command=self.choose_directory).grid(row=4, column=1, padx=10, pady=10)
         self.directory_label = tk.Label(self.root, text=self.log_directory.get())
-        self.directory_label.grid(row=4, column=0, columnspan=2, padx=10, pady=10)
+        self.directory_label.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
-        tk.Button(self.root, text="Run", command=self.run).grid(row=5, column=0, columnspan=2, padx=10, pady=10)
+        tk.Button(self.root, text="Run", command=self.run).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
         self.open_log_button = tk.Button(self.root, text="Open Log File", command=self.open_log_file, state=tk.DISABLED)
-        self.open_log_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+        self.open_log_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+
+        # Add copyright information at the bottom
+        tk.Label(self.root, text="Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.", font=("Helvetica", 10)).grid(row=10, column=0, columnspan=2, padx=10, pady=5)
 
     def load_images(self):
         # Open a file dialog to select image files and update the image label
@@ -67,7 +86,7 @@ class DropletApp:
     def choose_directory(self):
         # Open a directory dialog to select the log directory and update the directory label
         directory = filedialog.askdirectory()
-        if (directory):
+        if directory:
             self.log_directory.set(directory)
             self.directory_label.config(text=self.log_directory.get())
 
@@ -76,7 +95,7 @@ class DropletApp:
         if not self.image_files:
             messagebox.showwarning("No Images", "Please select images to process")
             return
-        
+
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
         if not log_file_path.endswith('.log'):
             log_file_path += '.log'
