@@ -28,7 +28,7 @@ This project calculates the contact angle of droplets in images. The script proc
     ```
 
 ## Usage
-### With UI
+#### With UI
 1. Open run_droplet_ui.vbs - Shortcut
 2. Choose image files
 3. Name the LOG file (the results file)
@@ -38,7 +38,7 @@ This project calculates the contact angle of droplets in images. The script proc
 7. Prass q continue to the next image.
 8. When calculation is complite, click on 'Open Log file' to see the results.
 
-## Directly from python
+#### Directly from python
 1. Place your images in the working folder (default is the current directory).
 2. Run the script. in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
     ```sh
