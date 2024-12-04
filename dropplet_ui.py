@@ -27,6 +27,10 @@ class DropletApp:
         self.root = root
         self.root.title("Droplet Contact Angle Calculation")
 
+        # Set the window icon
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon' ,'dropplet_icon.ico')
+        self.root.iconbitmap(icon_path)
+
         self.image_files = []
         self.log_file_name = tk.StringVar(value="results.log")
         self.log_directory = tk.StringVar(value=os.getcwd())

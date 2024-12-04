@@ -28,8 +28,8 @@ This project calculates the contact angle of droplets in images. The script proc
     ```
 
 ## Usage
-#### With UI
-1. Open run_droplet_ui.vbs - Shortcut
+#### With UI (Only for windows)
+1. Open droplet Shortcut
 2. Choose image files
 3. Name the LOG file (the results file)
 4. Choose directory for the results
@@ -62,7 +62,7 @@ This project calculates the contact angle of droplets in images. The script proc
 - You may need to crop the image to focus on the droplet and surface only.
 - Example images are provided in the repository (Example_Images folder).
 
-## Example Image
+### Example Image
 
 Here is an example image of a droplet on a Teflon surface:
 
