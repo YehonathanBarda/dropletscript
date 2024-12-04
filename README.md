@@ -29,7 +29,7 @@ This project calculates the contact angle of droplets in images. The script proc
 
 ## Usage
 #### With UI (Only for windows)
-1. Open droplet Shortcut
+1. Open run_dropplet_ui.vbs or click the short cut if it exists.
 2. Choose image files
 3. Name the LOG file (the results file)
 4. Choose directory for the results
