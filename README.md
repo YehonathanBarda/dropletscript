@@ -70,9 +70,9 @@ Here is an example image of a droplet on a Teflon surface:
 
 ![Teflon Surface Droplet](Example_Images/teflon1.jpg)
 
-Here is an example image of a droplet on a Teflon surface:
+Here is an example image of a droplet on a Copper surface:
 
-![Teflon Surface Droplet](Example_Images/copper1.jpg)
+![Copper Surface Droplet](Example_Images/copper1.jpg)
 
 ## Parameters
 
