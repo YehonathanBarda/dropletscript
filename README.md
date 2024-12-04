@@ -30,7 +30,7 @@ This project calculates the contact angle of droplets in images. The script proc
     ```
 
 ## Usage
-#### With UI (Only for windows)
+#### With UI (Only for Windows)
 1. Open run_dropplet_ui.vbs or click the shortcut if it exists.
 2. Choose image files
 3. Name the LOG file (the results file)
@@ -42,7 +42,7 @@ This project calculates the contact angle of droplets in images. The script proc
 
 #### Directly from python
 1. Place your images in the working folder (default is the current directory).
-2. Run the script. in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
+2. Run the script (dropplet_run.py). in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
     ```sh
     cd <repository-directory>
     python dropplet_run.py
@@ -69,6 +69,10 @@ This project calculates the contact angle of droplets in images. The script proc
 Here is an example image of a droplet on a Teflon surface:
 
 ![Teflon Surface Droplet](Example_Images/teflon1.jpg)
+
+Here is an example image of a droplet on a Teflon surface:
+
+![Teflon Surface Droplet](Example_Images/copper1.jpg)
 
 ## Parameters
 
