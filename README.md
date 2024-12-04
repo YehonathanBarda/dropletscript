@@ -13,23 +13,25 @@ This project calculates the contact angle of droplets in images. The script proc
 - OpenCV
 - NumPy
 - Matplotlib
+- tkinter
+- PIL
+- subprocess
 
 ## Installation
 
 1. Clone the repository:
     ```sh
-    git clone <repository-url>
-    cd <repository-directory>
+    git clone https://github.com/YehonathanBarda/droppletscript.git <target_directory_path>
     ```
 
 2. Install the required libraries:
     ```sh
-    pip install opencv-python numpy matplotlib
+    pip install opencv-python numpy matplotlib tkinter PIL subprocess
     ```
 
 ## Usage
 #### With UI (Only for windows)
-1. Open run_dropplet_ui.vbs or click the short cut if it exists.
+1. Open run_dropplet_ui.vbs or click the shortcut if it exists.
 2. Choose image files
 3. Name the LOG file (the results file)
 4. Choose directory for the results
