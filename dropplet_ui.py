@@ -38,6 +38,7 @@ class DropletApp:
         self.create_widgets()
 
     def create_widgets(self):
+        # Create and place widgets in the application window
         tk.Label(self.root, text="Select Images:").grid(row=0, column=0, padx=10, pady=10)
         tk.Button(self.root, text="Browse", command=self.load_images).grid(row=0, column=1, padx=10, pady=10)
         self.image_label = tk.Label(self.root, text="")
@@ -56,6 +57,7 @@ class DropletApp:
         self.open_log_button.grid(row=6, column=0, columnspan=2, padx=10, pady=10)
 
     def load_images(self):
+        # Open a file dialog to select image files and update the image label
         files = filedialog.askopenfilenames(filetypes=[("Image files", "*.jpeg;*.jpg")])
         if files:
             self.image_files = files
@@ -63,12 +65,14 @@ class DropletApp:
             messagebox.showinfo("Selected Images", f"{len(files)} images selected")
 
     def choose_directory(self):
+        # Open a directory dialog to select the log directory and update the directory label
         directory = filedialog.askdirectory()
-        if directory:
+        if (directory):
             self.log_directory.set(directory)
             self.directory_label.config(text=self.log_directory.get())
 
     def run(self):
+        # Process the selected images to calculate contact angles and log the results
         if not self.image_files:
             messagebox.showwarning("No Images", "Please select images to process")
             return
@@ -92,6 +96,7 @@ class DropletApp:
         self.open_log_button.config(state=tk.NORMAL)
 
     def open_log_file(self):
+        # Open the log file in Notepad
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
         if os.path.isfile(log_file_path):
             subprocess.Popen(['notepad.exe', log_file_path])
