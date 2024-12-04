@@ -6,7 +6,7 @@ from dropplet_functions import calculate_contact_angle
 
 This script calculates the contact angle of all the images in the working folder and stores the results in a log file.
 The working folder is defined by the WORKING_FOLDER variable and the accepted image formats are defined by the ACCEPTED_IMAGE_FORMATS variable.
-The results are stored in the LOG_FILE file.
+The results are stored in qthe LOG_FILE file.
 
 """
 

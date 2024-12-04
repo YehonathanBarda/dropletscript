@@ -1,4 +1,4 @@
-# Droplet Contact Angle Calculation
+# Droplet Contact Angle Calculation 
 
 This project calculates the contact angle of droplets in images. The script processes images in the working folder and logs the results.
 
