@@ -4,6 +4,8 @@ from tkinter import filedialog, messagebox
 from dropplet_functions import calculate_contact_angle
 from PIL import Image, ImageTk
 import subprocess
+import webbrowser
+
 
 """
 Droplet Contact Angle Calculation GUI
@@ -48,7 +50,7 @@ class DropletApp:
         # Load and resize the logo image
         logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.png')
         logo_image = Image.open(logo_path)
-        logo_image = logo_image.resize((90, 90), Image.ANTIALIAS)  # Resize the image to 100x100 pixels
+        logo_image = logo_image.resize((90, 90), Image.Resampling.LANCZOS)  # Resize the image to 100x100 pixels
         logo_photo = ImageTk.PhotoImage(logo_image)
 
         # Create and place widgets in the application window
@@ -71,6 +73,11 @@ class DropletApp:
         tk.Button(self.root, text="Run", command=self.run).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
         self.open_log_button = tk.Button(self.root, text="Open Log File", command=self.open_log_file, state=tk.DISABLED)
         self.open_log_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+
+        # Add GitHub repository link
+        github_link = tk.Label(self.root, text="GitHub Repository", fg="blue", cursor="hand2", font=("Helvetica", 10, "underline"))
+        github_link.grid(row=9, column=0, columnspan=2, padx=10, pady=5)
+        github_link.bind("<Button-1>", lambda e: self.open_github())
 
         # Add copyright information at the bottom
         tk.Label(self.root, text="Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.", font=("Helvetica", 10)).grid(row=10, column=0, columnspan=2, padx=10, pady=5)
@@ -122,6 +129,9 @@ class DropletApp:
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
         if os.path.isfile(log_file_path):
             subprocess.Popen(['notepad.exe', log_file_path])
+    
+    def open_github(self):
+        webbrowser.open_new("https://github.com/YehonathanBarda/droppletscript")
 
 if __name__ == "__main__":
     root = tk.Tk()

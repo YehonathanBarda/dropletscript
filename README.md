@@ -9,10 +9,22 @@ This project calculates the contact angle of droplets in images. The script proc
 
 ## Requirements
 
-- Python 3.x
-- OpenCV
-- NumPy
-- Matplotlib
+To run this project, you need to have the following packages installed:
+
+- `os` (standard library)
+- `tkinter` (standard library)
+- `Pillow`
+- `subprocess` (standard library)
+- `webbrowser` (standard library)
+- `opencv-python`
+- `numpy`
+- `matplotlib`
+
+You can install the required packages using `pip`:
+
+```sh
+pip install Pillow opencv-python numpy matplotlib
+```
 
 ## Installation
 
