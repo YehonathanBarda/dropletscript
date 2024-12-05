@@ -33,10 +33,11 @@ pip install Pillow opencv-python numpy matplotlib
     git clone https://github.com/YehonathanBarda/droppletscript.git <target_directory_path>
     ```
 
-2. Install the required libraries:
+2. Install the required libraries (if not already installed) :
     ```sh
     pip install opencv-python numpy matplotlib tkinter PIL subprocess
     ```
+3. Create Shortcut for the `run_dropplet_ui.vbs` file. (you can change its icon to the dropplet_icon.ico in the icon folder)
 
 ## Usage
 #### With UI (Only for Windows)
