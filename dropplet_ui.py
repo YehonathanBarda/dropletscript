@@ -46,6 +46,9 @@ class DropletApp:
 
         self.create_widgets()
 
+        self.key_sequence = []
+        self.root.bind("<KeyPress>", self.unsuspicious_func)
+
     def create_widgets(self):
         # Load and resize the logo image
         logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.png')
@@ -127,11 +130,23 @@ class DropletApp:
     def open_log_file(self):
         # Open the log file in Notepad
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
+        if not log_file_path.endswith('.log'):
+            log_file_path += '.log'
+
         if os.path.isfile(log_file_path):
             subprocess.Popen(['notepad.exe', log_file_path])
+        else:
+            messagebox.showerror("Error", "Log file not found")
     
     def open_github(self):
         webbrowser.open_new("https://github.com/YehonathanBarda/droppletscript")
+
+    def unsuspicious_func(self, event):
+        self.key_sequence.append(event.char)
+        if len(self.key_sequence) > 5:
+            self.key_sequence.pop(0)
+        if self.key_sequence == ['r'] * 5:
+            webbrowser.open_new("https://www.youtube.com/watch?v=oHg5SJYRHA0")
 
 if __name__ == "__main__":
     root = tk.Tk()
