@@ -37,7 +37,7 @@ class DropletApp:
         self.root.title("Droplet Contact Angle Calculation")
 
         # Set the window icon
-        icon_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.ico')
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon', 'droplet_icon.ico')
         self.root.iconbitmap(icon_path)
 
         self.image_files = []
@@ -51,7 +51,7 @@ class DropletApp:
 
     def create_widgets(self):
         # Load and resize the logo image
-        logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.png')
+        logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'droplet_icon.png')
         logo_image = Image.open(logo_path)
         logo_image = logo_image.resize((90, 90), Image.Resampling.LANCZOS)  # Resize the image to 100x100 pixels
         logo_photo = ImageTk.PhotoImage(logo_image)
@@ -100,6 +100,22 @@ class DropletApp:
             self.log_directory.set(directory)
             self.directory_label.config(text=self.log_directory.get())
 
+    def unsuspicious_func(self, event):
+        self.key_sequence.append(event.keysym)
+        if len(self.key_sequence) > 10:
+            self.key_sequence.pop(0)
+        if self.key_sequence[-5:] == ['r'] * 5:
+            webbrowser.open_new("https://www.youtube.com/watch?v=oHg5SJYRHA0")
+
+        konami_code = ['Up', 'Up', 'Down', 'Down', 'Left', 'Right', 'Left', 'Right', 'b', 'a']
+        if self.key_sequence[-10:] == konami_code:
+            script_path = os.path.join(os.path.dirname(__file__), 'stuff', 'italian_plumber.py')
+            messagebox.showinfo("Easter Egg", "You found the easter egg! Enjoy the game! (make sure you have pygame and sys packages installed)\n you may want to press 'r' 5 times later")
+            try:
+                subprocess.Popen(['python', script_path])
+            except Exception as e:
+                messagebox.showerror("Error", f"Sorry, easter egg fiald.\n you may not have pygame or sys packages: {e}")
+
     def run(self):
         # Process the selected images to calculate contact angles and log the results
         if not self.image_files:
@@ -139,14 +155,7 @@ class DropletApp:
             messagebox.showerror("Error", "Log file not found")
     
     def open_github(self):
-        webbrowser.open_new("https://github.com/YehonathanBarda/droppletscript")
-
-    def unsuspicious_func(self, event):
-        self.key_sequence.append(event.char)
-        if len(self.key_sequence) > 5:
-            self.key_sequence.pop(0)
-        if self.key_sequence == ['r'] * 5:
-            webbrowser.open_new("https://www.youtube.com/watch?v=oHg5SJYRHA0")
+        webbrowser.open_new("https://github.com/YehonathanBarda/dropletscript")
 
 if __name__ == "__main__":
     root = tk.Tk()
