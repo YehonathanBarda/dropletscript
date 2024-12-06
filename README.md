@@ -30,18 +30,18 @@ pip install Pillow opencv-python numpy matplotlib
 
 1. Clone the repository:
     ```sh
-    git clone https://github.com/YehonathanBarda/droppletscript.git <target_directory_path>
+    git clone https://github.com/YehonathanBarda/dropletscript.git <target_directory_path>
     ```
 
 2. Install the required libraries (if not already installed) :
     ```sh
-    pip install opencv-python numpy matplotlib tkinter PIL subprocess
+    pip install opencv-python numpy matplotlib PIL
     ```
-3. Create Shortcut for the `run_dropplet_ui.vbs` file. (you can change its icon to the dropplet_icon.ico in the icon folder)
+3. Create Shortcut for the `run_droplet_ui.vbs` file. (you can change its icon to the droplet_icon.ico in the icon folder)
 
 ## Usage
 #### With UI (Only for Windows)
-1. Open run_dropplet_ui.vbs or click the shortcut if it exists.
+1. Open run_droplet_ui.vbs or click the shortcut if it exists.
 2. Choose image files
 3. Name the LOG file (the results file)
 4. Choose directory for the results
@@ -52,10 +52,10 @@ pip install Pillow opencv-python numpy matplotlib
 
 #### Directly from python
 1. Place your images in the working folder (default is the current directory).
-2. Run the script (dropplet_run.py). in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
+2. Run the script (droplet_run.py). in any way you like, for example using the CMD (to open clilck window key, write cmd, click enter):
     ```sh
     cd <repository-directory>
-    python dropplet_run.py
+    python droplet_run.py
     ```
 4. The intermediate results will be displayed. Make sure that the drop and surface are detected correctly.
 5. Prass q continue to the next image.

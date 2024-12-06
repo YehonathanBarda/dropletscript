@@ -37,7 +37,7 @@ class DropletApp:
         self.root.title("Droplet Contact Angle Calculation")
 
         # Set the window icon
-        icon_path = os.path.join(os.path.dirname(__file__), 'icon', 'droplet_icon.ico')
+        icon_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.ico')
         self.root.iconbitmap(icon_path)
 
         self.image_files = []
@@ -51,7 +51,7 @@ class DropletApp:
 
     def create_widgets(self):
         # Load and resize the logo image
-        logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'droplet_icon.png')
+        logo_path = os.path.join(os.path.dirname(__file__), 'icon', 'dropplet_icon.png')
         logo_image = Image.open(logo_path)
         logo_image = logo_image.resize((90, 90), Image.Resampling.LANCZOS)  # Resize the image to 100x100 pixels
         logo_photo = ImageTk.PhotoImage(logo_image)
@@ -139,7 +139,7 @@ class DropletApp:
             messagebox.showerror("Error", "Log file not found")
     
     def open_github(self):
-        webbrowser.open_new("https://github.com/YehonathanBarda/dropletscript")
+        webbrowser.open_new("https://github.com/YehonathanBarda/droppletscript")
 
     def unsuspicious_func(self, event):
         self.key_sequence.append(event.char)

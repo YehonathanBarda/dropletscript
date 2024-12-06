@@ -1,5 +1,5 @@
 import os
-from dropplet_functions import calculate_contact_angle
+from droplet_functions import calculate_contact_angle
 
 """
 @authors: Lyrie Edler and Yehonathan Barda
