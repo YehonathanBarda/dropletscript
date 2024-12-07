@@ -54,12 +54,16 @@ class DropletApp:
         self.log_file_name = tk.StringVar(value="results.log")
         self.log_directory = tk.StringVar(value=os.getcwd())
         self.log_mode = tk.StringVar(value="Write")  # Default is write mode
+        self.birthday = "27-2"
+        self.date = datetime.now().strftime('%d-%m')
 
         self.create_widgets()
 
         self.key_sequence = []
         self.root.bind("<KeyPress>", self.unsuspicious_func)
         self.logo_click_count = 0
+        self.root.after(1, self.delon_birthday)
+
 
     def create_widgets(self):
         # Load and resize the logo image
@@ -150,6 +154,19 @@ class DropletApp:
             self.root.after(20, self.move_Delon_image_back, start_x + step, end_x)
         else:
             self.Delon_label.place_forget()
+    
+    def delon_birthday(self):
+        if self.date == self.birthday:
+            self.root.title("Droplet Contact Angle Calculation - Happy Birthday Omry!")
+            Delon_image_path = os.path.join(os.path.dirname(__file__), 'stuff', 'Delon.png')
+            Delon_image = Image.open(Delon_image_path)
+            Delon_image = Delon_image.resize((80, 220), Image.Resampling.LANCZOS)
+            Delon_photo = ImageTk.PhotoImage(Delon_image)
+            self.Delon_label = tk.Label(self.root, image=Delon_photo)
+            self.Delon_label.image = Delon_photo
+            self.Delon_label.place(x=self.root.winfo_width() - 80, y=0-12)
+            birthday_label = tk.Label(self.root, text="Happy Birthday Omry!!!", font=("Helvetica", 24), fg="red")
+            birthday_label.place(relx=0.5, rely=0.4, anchor="center")
 
     def unsuspicious_func(self, event):
         self.key_sequence.append(event.keysym)
