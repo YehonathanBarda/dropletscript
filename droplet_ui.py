@@ -32,6 +32,8 @@ class DropletApp:
         choose_directory(): Opens a directory dialog to select the log directory and updates the directory label.
         run(): Processes the selected images to calculate contact angles and logs the results.
         open_log_file(): Opens the log file in Notepad.
+        open_github(): Opens the GitHub repository link in a web browser.
+
     """
     def __init__(self, root):
         self.root = root
@@ -44,12 +46,13 @@ class DropletApp:
         self.image_files = []
         self.log_file_name = tk.StringVar(value="results.log")
         self.log_directory = tk.StringVar(value=os.getcwd())
-        self.append_mode = tk.BooleanVar(value=False)  # Default is overwrite mode
+        self.log_mode = tk.StringVar(value="Write")  # Default is write mode
 
         self.create_widgets()
 
         self.key_sequence = []
         self.root.bind("<KeyPress>", self.unsuspicious_func)
+        self.logo_click_count = 0
 
     def create_widgets(self):
         # Load and resize the logo image
@@ -59,8 +62,10 @@ class DropletApp:
         logo_photo = ImageTk.PhotoImage(logo_image)
 
         # Create and place widgets in the application window
-        tk.Label(self.root, image=logo_photo).grid(row=0, column=0, columnspan=2, padx=10, pady=10)
+        self.logo_label = tk.Label(self.root, image=logo_photo)
+        self.logo_label.grid(row=0, column=0, columnspan=2, padx=10, pady=10)
         self.root.logo_photo = logo_photo  # Keep a reference to avoid garbage collection
+        self.logo_label.bind("<Button-1>", self.on_logo_click)
 
         tk.Label(self.root, text="Select Images:").grid(row=1, column=0, padx=10, pady=10)
         tk.Button(self.root, text="Browse", command=self.load_images).grid(row=1, column=1, padx=10, pady=10)
@@ -75,7 +80,9 @@ class DropletApp:
         self.directory_label = tk.Label(self.root, text=self.log_directory.get())
         self.directory_label.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
-        tk.Checkbutton(self.root, text="Append to Log File", variable=self.append_mode).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+        tk.Label(self.root, text="Log Mode:").grid(row=6, column=0, padx=0, pady=10)
+        tk.Radiobutton(self.root, text="Overwrite", variable=self.log_mode, value="Write").grid(row=6, column=1, padx=1, pady=5, sticky=("w"))
+        tk.Radiobutton(self.root, text="Append", variable=self.log_mode, value="Append").grid(row=6, column=1, padx=1, pady=5)
 
         tk.Button(self.root, text="Run", command=self.run).grid(row=7, column=0, columnspan=2, padx=10, pady=10)
         self.open_log_button = tk.Button(self.root, text="Open Log File", command=self.open_log_file, state=tk.DISABLED)
@@ -104,6 +111,39 @@ class DropletApp:
             self.log_directory.set(directory)
             self.directory_label.config(text=self.log_directory.get())
 
+    def on_logo_click(self, event):
+        self.logo_click_count += 1
+        if self.logo_click_count == 5:
+            self.logo_click_count = 0
+            self.animate_Delon_image()
+
+    def animate_Delon_image(self):
+        Delon_image_path = os.path.join(os.path.dirname(__file__), 'stuff', 'Delon.png')
+        Delon_image = Image.open(Delon_image_path)
+        Delon_image = Delon_image.resize((80, 220), Image.Resampling.LANCZOS)
+        Delon_photo = ImageTk.PhotoImage(Delon_image)
+        self.Delon_label = tk.Label(self.root, image=Delon_photo)
+        self.Delon_label.image = Delon_photo
+
+        self.Delon_label.place(x=self.root.winfo_width(), y=0)
+        self.move_Delon_image(self.root.winfo_width(),self.root.winfo_width() -80)
+
+    def move_Delon_image(self, start_x, end_x):
+        step = 5
+        if start_x > end_x:
+            self.Delon_label.place(x=start_x, y=-12)
+            self.root.after(20, self.move_Delon_image, start_x - step, end_x)
+        else:
+            self.root.after(900, self.move_Delon_image_back, end_x, self.root.winfo_width())
+
+    def move_Delon_image_back(self, start_x, end_x):
+        step = 8
+        if start_x < end_x:
+            self.Delon_label.place(x=start_x, y=-12)
+            self.root.after(20, self.move_Delon_image_back, start_x + step, end_x)
+        else:
+            self.Delon_label.place_forget()
+
     def unsuspicious_func(self, event):
         self.key_sequence.append(event.keysym)
         if len(self.key_sequence) > 10:
@@ -130,11 +170,20 @@ class DropletApp:
         if not log_file_path.endswith('.log'):
             log_file_path += '.log'
         
-        open_mode = 'a' if self.append_mode.get() else 'w'
+        open_mode = 'a' if self.log_mode.get() == "Append" else 'w'
+        if os.path.isfile(log_file_path) and open_mode == 'w':
+            result = messagebox.askyesnocancel("File Exists", "Log file already exists. Do you want to overwrite it?\nClick 'No' to append, 'Cancel' to abort.")
+            if result is None:  # Cancel
+                return
+            elif result is False:  # No
+                open_mode = 'a'
+
+        if not os.path.isfile(log_file_path):
+            open_mode = 'w'
 
         with open(log_file_path, open_mode, encoding='utf-8') as log_file:
             if open_mode == 'w':
-                log_file.write(f"Log started on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+                log_file.write(f"Log started on {datetime.now().strftime('%H:%M %d-%m-%Y')}\n\n")
 
             for file_name in self.image_files:
                 try:
