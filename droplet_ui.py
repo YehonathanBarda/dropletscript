@@ -1,11 +1,18 @@
-import os
-import tkinter as tk
-from tkinter import filedialog, messagebox
-from droplet_functions import calculate_contact_angle
-from PIL import Image, ImageTk
-import subprocess
-import webbrowser
-from datetime import datetime
+try:
+    import os
+    import tkinter as tk
+    from tkinter import filedialog, messagebox
+    from droplet_functions import calculate_contact_angle
+    from PIL import Image, ImageTk
+    import subprocess
+    import webbrowser
+    from datetime import datetime
+    import runpy
+except ImportError as e:
+    print(f"Error: {e}")
+    print("Please make sure you have the required modules installed.")
+    print("You can install the required modules by running 'pip install -r requirements.txt' in the terminal.")
+    exit(1)
 
 
 """
@@ -154,11 +161,11 @@ class DropletApp:
         konami_code = ['Up', 'Up', 'Down', 'Down', 'Left', 'Right', 'Left', 'Right', 'b', 'a']
         if self.key_sequence[-10:] == konami_code:
             script_path = os.path.join(os.path.dirname(__file__), 'stuff', 'italian_plumber.py')
-            messagebox.showinfo("Easter Egg", "You found the easter egg! Enjoy the game! (make sure you have pygame and sys packages installed)\n you may want to press 'r' 5 times later")
             try:
-                subprocess.Popen(['python', script_path])
-            except Exception as e:
-                messagebox.showerror("Error", f"Sorry, easter egg fiald.\n you may not have pygame or sys packages: {e}")
+                # subprocess.Popen(['python', script_path])
+                runpy.run_path(script_path)
+            except ModuleNotFoundError or ImportError as e:
+                messagebox.showerror("Error", f"Sorry, easter egg fiald.\n you may not have pygame or sys package installed.\n Error: {e}")
 
     def run(self):
         # Process the selected images to calculate contact angles and log the results
