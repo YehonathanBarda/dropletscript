@@ -5,6 +5,7 @@ from droplet_functions import calculate_contact_angle
 from PIL import Image, ImageTk
 import subprocess
 import webbrowser
+from datetime import datetime
 
 
 """
@@ -43,6 +44,7 @@ class DropletApp:
         self.image_files = []
         self.log_file_name = tk.StringVar(value="results.log")
         self.log_directory = tk.StringVar(value=os.getcwd())
+        self.append_mode = tk.BooleanVar(value=False)  # Default is overwrite mode
 
         self.create_widgets()
 
@@ -73,9 +75,11 @@ class DropletApp:
         self.directory_label = tk.Label(self.root, text=self.log_directory.get())
         self.directory_label.grid(row=5, column=0, columnspan=2, padx=10, pady=10)
 
-        tk.Button(self.root, text="Run", command=self.run).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+        tk.Checkbutton(self.root, text="Append to Log File", variable=self.append_mode).grid(row=6, column=0, columnspan=2, padx=10, pady=10)
+
+        tk.Button(self.root, text="Run", command=self.run).grid(row=7, column=0, columnspan=2, padx=10, pady=10)
         self.open_log_button = tk.Button(self.root, text="Open Log File", command=self.open_log_file, state=tk.DISABLED)
-        self.open_log_button.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+        self.open_log_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
 
         # Add GitHub repository link
         github_link = tk.Label(self.root, text="GitHub Repository", fg="blue", cursor="hand2", font=("Helvetica", 10, "underline"))
@@ -125,8 +129,13 @@ class DropletApp:
         log_file_path = os.path.join(self.log_directory.get(), self.log_file_name.get())
         if not log_file_path.endswith('.log'):
             log_file_path += '.log'
-            
-        with open(log_file_path, 'w', encoding='utf-8') as log_file:
+        
+        open_mode = 'a' if self.append_mode.get() else 'w'
+
+        with open(log_file_path, open_mode, encoding='utf-8') as log_file:
+            if open_mode == 'w':
+                log_file.write(f"Log started on {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}\n\n")
+
             for file_name in self.image_files:
                 try:
                     # Try to open the image using PIL to check if the file is valid
