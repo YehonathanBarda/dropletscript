@@ -45,7 +45,7 @@ pip install Pillow opencv-python numpy matplotlib
 2. Choose image files
 3. Name the LOG file (the results file)
 4. Choose directory for the results
-5. Choose the Log Mod: either Overwrite the or Append to the exsisting file.
+5. Choose the Log Mod: either Overwrite or Append to the existing file.
 7. Click Run
 8. The intermediate results will be displayed. Make sure that the drop and surface are detected correctly. 
 9. Prass q continue to the next image.
