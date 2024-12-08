@@ -15,6 +15,7 @@ BLUE = (0, 0, 255)
 RED = (255, 0, 0)
 YELLOW = (255, 255, 0)
 GREEN = (0, 255, 0)
+BLACK = (0, 0, 0)
 
 # Player settings
 PLAYER_WIDTH = 50
@@ -312,12 +313,16 @@ def main(level=1, deaths=0, points=0):
 
         # Display points, deaths, and level
         font = pygame.font.Font(None, 36)
+        font2 = pygame.font.Font(None, 70)
         points_text = font.render(f"Points: {points}", True, GREEN)
         deaths_text = font.render(f"Deaths: {deaths}", True, RED)
         level_text = font.render(f"Level: {level}" + "/2", True, BLUE)
+        Title_text = font2.render(f"Italian Plumber Game", True, BLACK)
+
         screen.blit(points_text, (10, 10))
         screen.blit(deaths_text, (10, 50))
         screen.blit(level_text, (10, 90))
+        screen.blit(Title_text, (200, 30))
 
         # Flip the display
         pygame.display.flip()
