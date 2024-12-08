@@ -7,7 +7,7 @@ try:
     import subprocess
     import webbrowser
     from datetime import datetime
-    import runpy
+
 except ImportError as e:
     print(f"Error: {e}")
     print("Please make sure you have the required modules installed.")
@@ -173,16 +173,27 @@ class DropletApp:
         if len(self.key_sequence) > 10:
             self.key_sequence.pop(0)
         if self.key_sequence[-5:] == ['r'] * 5:
-            webbrowser.open_new("https://www.youtube.com/watch?v=oHg5SJYRHA0")
+                webbrowser.open_new("https://www.youtube.com/watch?v=oHg5SJYRHA0")
 
         konami_code = ['Up', 'Up', 'Down', 'Down', 'Left', 'Right', 'Left', 'Right', 'b', 'a']
         if self.key_sequence[-10:] == konami_code:
             script_path = os.path.join(os.path.dirname(__file__), 'stuff', 'italian_plumber.py')
             try:
-                # subprocess.Popen(['python', script_path])
-                runpy.run_path(script_path)
-            except ModuleNotFoundError or ImportError as e:
-                messagebox.showerror("Error", f"Sorry, easter egg fiald.\n you may not have pygame or sys package installed.\n Error: {e}")
+                result = subprocess.run(
+                    ['python', script_path],
+                    check=True,
+                    stdout=subprocess.PIPE,
+                    stderr=subprocess.PIPE,
+                    text=True
+                )
+                print(result.stdout)  # Print script output if needed
+            except subprocess.CalledProcessError as e:
+                # Display the error in a messagebox
+                messagebox.showerror("Error", f"Sorry, easter egg failed.\nError: {e.stderr}")
+            except Exception as e:
+                # Handle unexpected exceptions
+                messagebox.showerror("Error", f"Unexpected error occurred.\nError: {e}")
+
 
     def run(self):
         # Process the selected images to calculate contact angles and log the results

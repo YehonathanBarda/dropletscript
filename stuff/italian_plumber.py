@@ -1,6 +1,5 @@
 import pygame
 import sys
-import random
 import os
 
 # Initialize pygame
@@ -158,9 +157,9 @@ class Princess(pygame.sprite.Sprite):
         self.rect.x = x
         self.rect.y = y
 
-def display_message(screen, message):
+def display_message(screen, message, color=RED):
     font = pygame.font.Font(None, 74)
-    text = font.render(message, True, RED)
+    text = font.render(message, True, color)
     text_rect = text.get_rect(center=(SCREEN_WIDTH / 2, SCREEN_HEIGHT / 2))
     screen.blit(text, text_rect)
     pygame.display.flip()
@@ -221,9 +220,8 @@ def initialize_level(level):
 
     return all_sprites, obstacles, stars, monsters, princess
 
-def main(level=1, deaths=0):
+def main(level=1, deaths=0, points=0):
     # Initialize counters
-    points = 0
 
     # Create player
     player = Player()
@@ -263,7 +261,7 @@ def main(level=1, deaths=0):
         if pygame.sprite.spritecollideany(player, monsters):
             deaths += 1
             print(f"Player touched a monster! Game Over! Total deaths: {deaths}")
-            display_message(screen, "Game Over! Press R to Restart")
+            display_message(screen, "Game Over! Press R to Restart", color=BLUE)
             waiting_for_restart = True
             while waiting_for_restart:
                 for event in pygame.event.get():
@@ -279,8 +277,8 @@ def main(level=1, deaths=0):
 
         # Check for collision with princess
         if pygame.sprite.collide_rect(player, princess):
-            if level < 3:
-                display_message(screen, "Level Complete! Press R for Next Level")
+            if level < 2:
+                display_message(screen, "Level Complete! Press R for Next Level", color=BLUE)
                 waiting_for_next_level = True
                 while waiting_for_next_level:
                     for event in pygame.event.get():
@@ -289,12 +287,12 @@ def main(level=1, deaths=0):
                             sys.exit()
                         elif event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_r:
-                                main(level + 1, deaths)  # Start the next level
+                                main(level + 1, deaths, points)  # Start the next level
                             elif event.key == pygame.K_q:
                                 pygame.quit()
                                 sys.exit()
             else:
-                display_message(screen, "You Win! Press R to Restart")
+                display_message(screen, "You Win! Press R to Restart", color=BLUE)
                 waiting_for_restart = True
                 while waiting_for_restart:
                     for event in pygame.event.get():
@@ -303,7 +301,7 @@ def main(level=1, deaths=0):
                             sys.exit()
                         elif event.type == pygame.KEYDOWN:
                             if event.key == pygame.K_r:
-                                main(1, deaths)  # Restart the game from level 1
+                                main(1, deaths, points)  # Restart the game from level 1
                             elif event.key == pygame.K_q:
                                 pygame.quit()
                                 sys.exit()
@@ -316,7 +314,7 @@ def main(level=1, deaths=0):
         font = pygame.font.Font(None, 36)
         points_text = font.render(f"Points: {points}", True, GREEN)
         deaths_text = font.render(f"Deaths: {deaths}", True, RED)
-        level_text = font.render(f"Level: {level}", True, BLUE)
+        level_text = font.render(f"Level: {level}" + "/2", True, BLUE)
         screen.blit(points_text, (10, 10))
         screen.blit(deaths_text, (10, 50))
         screen.blit(level_text, (10, 90))
