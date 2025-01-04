@@ -33,6 +33,10 @@ class DropletApp:
         image_label (tk.Label): Label to display selected image file names.
         directory_label (tk.Label): Label to display the selected log directory.
         open_log_button (tk.Button): Button to open the log file after processing.
+        parameters_file (str): The path of the parameters file.
+        parameters_label (tk.Label): Label to display the selected parameters file.
+        log_mode (tk.StringVar): The mode to open the log file (Write or Append).
+
     Methods:
         create_widgets(): Creates and places the widgets in the application window.
         load_images(): Opens a file dialog to select image files and updates the image label.
@@ -95,13 +99,22 @@ class DropletApp:
         tk.Radiobutton(self.root, text="Overwrite", variable=self.log_mode, value="Write").grid(row=6, column=1, padx=1, pady=5, sticky=("w"))
         tk.Radiobutton(self.root, text="Append", variable=self.log_mode, value="Append").grid(row=6, column=1, padx=1, pady=5)
 
-        tk.Button(self.root, text="Run", command=self.run).grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+        tk.Label(self.root, text="Select Parameters file:").grid(row=7, column=0, padx=10, pady=10)
+        tk.Button(self.root, text="Browse", command=self.load_parameters).grid(row=7, column=1, padx=10, pady=10)
+        self.parameters_label = tk.Label(self.root, text="Default")
+        self.parameters_label.grid(row=7, column=0, columnspan=2, padx=10, pady=10)
+        self.open_parameters_button = tk.Button(self.root, text="Open\nParameters", command=self.open_parameters_file, state=tk.DISABLED)
+        self.open_parameters_button.grid(row=8, column=1, columnspan=1, padx=10, pady=10)
+
+
+        tk.Button(self.root, text="Run", command=self.run).grid(row=8, column=0, columnspan=2, padx=10, pady=10)
         self.open_log_button = tk.Button(self.root, text="Open Log File", command=self.open_log_file, state=tk.DISABLED)
-        self.open_log_button.grid(row=8, column=0, columnspan=2, padx=10, pady=10)
+        self.open_log_button.grid(row=9, column=0, columnspan=2, padx=10, pady=10)
+
 
         # Add GitHub repository link
         github_link = tk.Label(self.root, text="GitHub Repository", fg="blue", cursor="hand2", font=("Helvetica", 10, "underline"))
-        github_link.grid(row=9, column=0, columnspan=2, padx=10, pady=5)
+        github_link.grid(row=10, column=0, columnspan=2, padx=10, pady=5)
         github_link.bind("<Button-1>", lambda e: self.open_github())
 
         # Add copyright information at the bottom
@@ -114,6 +127,15 @@ class DropletApp:
             self.image_files = files
             self.image_label.config(text="\n".join(os.path.basename(file) for file in files))
             messagebox.showinfo("Selected Images", f"{len(files)} images selected")
+    
+    def load_parameters(self):
+        # Open a file dialog to select the parameters file and update the parameters label
+        file = filedialog.askopenfilename(filetypes=[("Text files", "*.txt")])
+        if file:
+            self.parameters_file = file
+            self.parameters_label.config(text=os.path.basename(file))
+            messagebox.showinfo("Selected Parameters File", "Parameters file selected")
+            self.open_parameters_button.config(state=tk.NORMAL)
 
     def choose_directory(self):
         # Open a directory dialog to select the log directory and update the directory label
@@ -230,7 +252,7 @@ class DropletApp:
                     messagebox.showerror("Error", f"Image not found or invalid format. Path: {file_name}")
                     continue
 
-                contact_angle = calculate_contact_angle(file_name)
+                contact_angle = calculate_contact_angle(file_name,parameters_file=self.parameters_file)
                 log_file.write(f"File: {os.path.basename(file_name)} | Contact Angle: {contact_angle} degrees\n")
 
         messagebox.showinfo("Completed", f"Results stored in {log_file_path}")
@@ -246,6 +268,14 @@ class DropletApp:
             subprocess.Popen(['notepad.exe', log_file_path])
         else:
             messagebox.showerror("Error", "Log file not found")
+
+    def open_parameters_file(self):
+        # Open the log file in Notepad
+
+        if os.path.isfile(self.parameters_file):
+            subprocess.Popen(['notepad.exe', self.parameters_file])
+        else:
+            messagebox.showerror("Error", "Parameters file not found")
     
     def open_github(self):
         webbrowser.open_new("https://github.com/YehonathanBarda/dropletscript")

@@ -9,7 +9,7 @@ import matplotlib.pyplot as plt
 @Copyright (c) 2024 Lyrie Edler and Yehonathan Barda. All rights reserved.
 """
 
-def calculate_contact_angle(image_path):
+def calculate_contact_angle(image_path, Params_path = False):
     """
     Calculate the contact angle of a droplet in an image.
     This function processes an image to detect a droplet and its contact angle with the surface.
@@ -18,6 +18,7 @@ def calculate_contact_angle(image_path):
 
     Parameters:
     image_path (str): The file path to the image containing the droplet.
+    Params_path (str): The file path to the parameters file containing the image processing parameters. Optional.
     Returns:
     float: The contact angle in degrees if the droplet is detected and the angle is calculated successfully.
            None if the droplet is not detected or if there is an error in processing.
@@ -35,6 +36,8 @@ def calculate_contact_angle(image_path):
     HEIGHT_THRESHOLD_FINISH = 5 # Maximum height difference to consider a point
     JUMP_THRESHOLD = 2 # Maximum jump in X to consider a point
     MIN_POINTS_TO_FIND = 4 # Minimum points to consider a line
+
+    You can also pass the path to the parameters file as a second argument to the function.
 
     place the file in the same directory as this file.
     
@@ -67,19 +70,29 @@ def calculate_contact_angle(image_path):
             print(f"Processing image: {image_path}")
 
         # Parameters for image processing
-        if os.path.exists("parameters.txt"):  # Check if the file exists
+        # Define the default parameters for image processing
+        CLIP_LIMIT = 3.0  # Contrast Limited Adaptive Histogram Equalization (CLAHE) clip limit
+        THRESHOLD1 = 50  # Canny edge detection lower threshold
+        THRESHOLD2 = 150  # Canny edge detection upper threshold
+        POINTS_TO_TAKE = 30  # Number of points to consider for surface line detection
+        HEIGHT_THRESHOLD_START = 40  # Minimum height difference to consider a point
+        HEIGHT_THRESHOLD_FINISH = 5  # Maximum height difference to consider a point
+        JUMP_THRESHOLD = 2  # Maximum jump in X to consider a point
+        MIN_POINTS_TO_FIND = 4  # Minimum points to consider a line
+
+        if Params_path:
+            if os.path.exists(Params_path):
+                CLIP_LIMIT, THRESHOLD1, THRESHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHOLD_START, \
+                HEIGHT_THRESHOLD_FINISH, JUMP_THRESHOLD, MIN_POINTS_TO_FIND = load_parameters()
+            else:
+                raise ValueError(f"Error: Parameters file not found. Path: {Params_path}\nUsing default parameters or internal parameters.txt file.")
+            
+        elif os.path.exists("parameters.txt"):  # Check if the file exists
             CLIP_LIMIT, THRESHOLD1, THRESHOLD2, POINTS_TO_TAKE, HEIGHT_THRESHOLD_START, \
             HEIGHT_THRESHOLD_FINISH, JUMP_THRESHOLD, MIN_POINTS_TO_FIND = load_parameters()
-        else:
-            # Define the default parameters for image processing
-            CLIP_LIMIT = 3.0  # Contrast Limited Adaptive Histogram Equalization (CLAHE) clip limit
-            THRESHOLD1 = 50  # Canny edge detection lower threshold
-            THRESHOLD2 = 150  # Canny edge detection upper threshold
-            POINTS_TO_TAKE = 30  # Number of points to consider for surface line detection
-            HEIGHT_THRESHOLD_START = 40  # Minimum height difference to consider a point
-            HEIGHT_THRESHOLD_FINISH = 5  # Maximum height difference to consider a point
-            JUMP_THRESHOLD = 2  # Maximum jump in X to consider a point
-            MIN_POINTS_TO_FIND = 4  # Minimum points to consider a line
+            print("Using parameters from the parameters.txt file.")
+
+
 
         # Step 1: Convert to grayscale
         gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)

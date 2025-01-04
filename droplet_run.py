@@ -15,7 +15,7 @@ The results are stored in qthe LOG_FILE file.
 # Define the working folder and the accepted image formats
 WORKING_FOLDER = '.'
 ACCEPTED_IMAGE_FORMATS = ['jpeg', 'jpg']
-
+PARAMETERS_FILE = False
 # Create a log file to store the results
 LOG_FILE = os.path.join(WORKING_FOLDER, 'results.log')
 
@@ -27,7 +27,7 @@ with open(LOG_FILE, 'w', encoding='utf-8') as log_file:
         if file_name.split('.')[-1].lower() in ACCEPTED_IMAGE_FORMATS:
             Found_Image = True
             file_path = os.path.join(WORKING_FOLDER, file_name)
-            contact_angle = calculate_contact_angle(file_path)
+            contact_angle = calculate_contact_angle(file_path, PARAMETERS_FILE)
             log_file.write(f"File: {file_name}, Contact Angle: {contact_angle} degrees\n")
             print("\n")
 
