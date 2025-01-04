@@ -102,8 +102,8 @@ MIN_POINTS_TO_FIND = 4 # Minimum points to consider a line
 Place the `parameters.txt` file in the same directory as the script.
 
 ***NEW***
-* You now can feed the `parameters.txt` through the function `calculate_contact_angle` using the Params_path parameters. see more in the docstring.
-* You now can feed the `parameters.txt` through the UI by selecting it. 
+* You now can feed the `parameters.txt` through the function `calculate_contact_angle` using the Params_path parameter. see more in the docstring.
+* You now can feed the `parameters.txt` through the UI by selecting the file. 
 
 
 ## License
