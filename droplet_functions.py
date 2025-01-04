@@ -280,8 +280,8 @@ def calculate_contact_angle(image_path, Params_path = False):
         error_function(image, str(e), droplet_contour)
         return None
 
-def load_parameters():
-    open_file = open("parameters.txt", "r")
+def load_parameters(path = "parameters.txt"):
+    open_file = open(path, "r")
     lines = open_file.readlines()
     for line in lines:
         if "CLIP_LIMIT" in line:
